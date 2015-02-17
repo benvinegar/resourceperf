@@ -38,10 +38,20 @@ router.get('/:slug', function(req, res, next) {
       return res.render('404');
     }
 
-    res.render('testcase', {
-      title: testcase.name,
-      testcase: testcase
+    testcase.getSnippets().then(function (snippets) {
+      res.render('testcase', {
+        title: testcase.name,
+        testcase: testcase,
+        snippets: JSON.stringify(snippets)
+      });
     });
+  });
+});
+
+router.get('/snippet/:id', function (req, res, next) {
+  models.Snippet.find(req.params.id).then(function (snippet) {
+    res.set('Content-type', 'text/html');
+    res.send(snippet.code);
   });
 });
 

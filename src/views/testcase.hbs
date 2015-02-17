@@ -1,5 +1,14 @@
 <h1>{{testcase.name}}</h1>
 
-
 <h2>Info</h2>
 <p>{{testcase.desc}}</p>
+
+{{!-- {{#each snippets}}
+  Snippet
+  <iframe src="/snippet/{{this.id}}"></iframe>
+{{/each}} --}}
+
+<script type="text/json">
+{{{snippets}}}
+</script>
+<script src="/javascripts/runner.js"></script>
