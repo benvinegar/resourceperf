@@ -3,12 +3,29 @@
 <h2>Info</h2>
 <p>{{testcase.desc}}</p>
 
-{{!-- {{#each snippets}}
-  Snippet
-  <iframe src="/snippet/{{this.id}}"></iframe>
-{{/each}} --}}
+<button id="start">Start</button>
 
-<script type="text/json">
-{{{snippets}}}
+<table>
+  <thead>
+    <tr>
+      <th>Document</th>
+      <th>Time (ms)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td class="time"></td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td class="time"></td>
+    </tr>
+  </tbody>
+</table>
+
+<script id="documents" type="text/json">
+{{{snippetJson}}}
 </script>
-<script src="/javascripts/runner.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.2.js"></script>
+<script  src="/javascripts/runner.js"></script>

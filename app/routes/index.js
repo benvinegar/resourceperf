@@ -4,6 +4,8 @@ var router = express.Router();
 var models = require('../models');
 var Sequelize = require('sequelize');
 
+var jsesc = require('jsesc');
+
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Create a test' });
 });
@@ -42,7 +44,7 @@ router.get('/:slug', function(req, res, next) {
       res.render('testcase', {
         title: testcase.name,
         testcase: testcase,
-        snippets: JSON.stringify(snippets)
+        snippets: JSON.stringify(snippets).replace(/\</g, '\\\\u005C')
       });
     });
   });
