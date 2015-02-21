@@ -8,24 +8,26 @@
 <table>
   <thead>
     <tr>
+      <th>#</th>
       <th>Document</th>
       <th>Time (ms)</th>
     </tr>
   </thead>
   <tbody>
+
+    {{#each snippets}}
     <tr>
-      <td>1</td>
+      <td>{{@index}}</td>
+      <td>{{this.title}}</td>
       <td class="time"></td>
     </tr>
-    <tr>
-      <td>2</td>
-      <td class="time"></td>
-    </tr>
+    {{/each}}
   </tbody>
 </table>
 
 <script id="documents" type="text/json">
 {{{snippetJson}}}
 </script>
-<script src="https://code.jquery.com/jquery-1.11.2.js"></script>
-<script  src="/javascripts/runner.js"></script>
+
+<script src="/javascripts/jquery.js"></script>
+<script src="/javascripts/runner.js"></script>

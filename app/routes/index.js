@@ -31,6 +31,7 @@ router.post('/', function(req, res, next) {
     });
 });
 
+
 router.get('/:slug', function(req, res, next) {
   models.TestCase.find({
     where: {slug: req.params.slug }
@@ -44,7 +45,8 @@ router.get('/:slug', function(req, res, next) {
       res.render('testcase', {
         title: testcase.name,
         testcase: testcase,
-        snippets: JSON.stringify(snippets).replace(/\</g, '\\\\u005C')
+        snippets: snippets,
+        snippetJson: JSON.stringify(snippets).replace(/\</g, '\\\\u005C')
       });
     });
   });
