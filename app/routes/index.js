@@ -54,8 +54,9 @@ router.get('/:slug', function(req, res, next) {
 
 router.get('/snippet/:id', function (req, res, next) {
   models.Snippet.find(req.params.id).then(function (snippet) {
-    res.set('Content-type', 'text/html');
-    res.send(snippet.code);
+    res.render('snippet', {
+      snippet: snippet
+    });
   });
 });
 
