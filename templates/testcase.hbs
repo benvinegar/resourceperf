@@ -10,7 +10,8 @@
     <tr>
       <th>#</th>
       <th>Document</th>
-      <th>Time (ms)</th>
+      <th>DOM Complete</th>
+      <th>onload</th>
     </tr>
   </thead>
   <tbody>
@@ -19,7 +20,8 @@
     <tr>
       <td>{{@index}}</td>
       <td>{{this.title}}</td>
-      <td class="time"></td>
+      <td class="js-dom-complete"></td>
+      <td class="js-onload"></td>
     </tr>
     {{/each}}
   </tbody>

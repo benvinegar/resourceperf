@@ -6,30 +6,42 @@
   var documentData = $('#documents').text();
   var documents = JSON.parse(documentData);
 
-  var timers = [];
-  var last = null;
+  var timings = [];
 
-  function nextDocument() {
+  function nextDocument(first) {
     var next = documents.shift();
 
-    if (last)
-      timers.push(+(new Date()) - last);
+    if (!first)
+      // Use parse/stringiy to deep copy timing data
+      // (reference will be lost when we redirect the iframe)
+      timings.push(
+        JSON.parse(JSON.stringify(
+          iframe[0].contentWindow.performance.timing
+        ))
+      );
 
-    if (!next) return void report();
-
-    last = +(new Date());
+    if (!next) 
+      return void report();
 
     iframe.attr('src', '/snippet/' + next.id);
   }
 
   function report() {
-    var tds = $('.time');
-    timers.forEach(function (time, index) {
-      tds.eq(index).text(time);
+    var domComplete = $('.js-dom-complete'),
+      onload = $('.js-onload');
+
+    timings.forEach(function (timing, index) {
+      var start = timing.connectStart;
+      domComplete.eq(index).text(timing.domComplete - start);
+      onload.eq(index).text(timing.loadEventEnd - start);
     });
   }
 
-  iframe.on('load', nextDocument);
+  iframe.on('load', function () {
+    nextDocument.call(this, false);
+  });
 
-  $('#start').click(nextDocument);
+  $('#start').click(function () {
+    nextDocument.call(this, true);
+  });
 })();
