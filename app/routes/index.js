@@ -52,6 +52,13 @@ router.get('/:slug', function(req, res, next) {
   });
 });
 
+router.get('/snippet/new', function (req, res, next) {
+  res.render('partials/_snippet', {
+    layout: false,
+    index: req.query.index
+  });
+});
+
 router.get('/snippet/:id', function (req, res, next) {
   models.Snippet.find(req.params.id).then(function (snippet) {
     res.render('snippet', {
@@ -59,5 +66,6 @@ router.get('/snippet/:id', function (req, res, next) {
     });
   });
 });
+
 
 module.exports = router;
