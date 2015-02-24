@@ -17,15 +17,15 @@ router.post('/', function(req, res, next) {
   var testCase = models.TestCase.build(req.body);
   chainer.add(testCase.save());
 
-  // Create snippets
-  var snippets = req.body.snippet.map((s) => models.Snippet.build(s));
-  snippets.forEach((s) => chainer.add(s.save()));
+  // Create documents
+  var documents = req.body.document.map((s) => models.Document.build(s));
+  documents.forEach((s) => chainer.add(s.save()));
 
   chainer
     .run()
     .then(function () {
-      // Associate snippets w/ test case
-      testCase.setSnippets(snippets).then(function () {
+      // Associate documents w/ test case
+      testCase.setDocuments(documents).then(function () {
         res.redirect('/' + req.body.slug);
       });
     });
@@ -41,28 +41,28 @@ router.get('/:slug', function(req, res, next) {
       return res.render('404');
     }
 
-    testcase.getSnippets().then(function (snippets) {
+    testcase.getDocuments().then(function (documents) {
       res.render('testcase', {
         title: testcase.name,
         testcase: testcase,
-        snippets: snippets,
-        snippetJson: JSON.stringify(snippets).replace(/\</g, '\\\\u005C')
+        documents: documents,
+        documentJson: JSON.stringify(documents).replace(/\</g, '\\\\u005C')
       });
     });
   });
 });
 
-router.get('/snippet/new', function (req, res, next) {
-  res.render('partials/_snippet', {
+router.get('/document/new', function (req, res, next) {
+  res.render('partials/_document', {
     layout: false,
     index: req.query.index
   });
 });
 
-router.get('/snippet/:id', function (req, res, next) {
-  models.Snippet.find(req.params.id).then(function (snippet) {
-    res.render('snippet', {
-      snippet: snippet
+router.get('/document/:id', function (req, res, next) {
+  models.Document.find(req.params.id).then(function (document) {
+    res.render('document', {
+      document: document
     });
   });
 });

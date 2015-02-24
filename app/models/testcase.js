@@ -7,7 +7,7 @@ module.exports = function(sequelize, DataTypes) {
     desc: DataTypes.STRING
   }, {
     classMethods: {
-      associate: (models) => TestCase.hasMany(models.Snippet)
+      associate: (models) => TestCase.hasMany(models.Document)
     }
   });
 

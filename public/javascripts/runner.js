@@ -23,7 +23,7 @@
     if (!next) 
       return void report();
 
-    iframe.attr('src', '/snippet/' + next.id);
+    iframe.attr('src', '/document/' + next.id);
   }
 
   function report() {
