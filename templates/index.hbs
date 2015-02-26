@@ -20,41 +20,8 @@
     </label>
   </div>
 
-  <div class="document">
-    <h3>Document</h3>
-
-    <label>
-      Title <input name="document[0][title]"/>
-    </label>
-
-    <label>
-      Head
-      <textarea name="document[0][head]" rows="10"></textarea>
-    </label>
-
-    <label>
-      Body
-      <textarea name="document[0][body]" rows="10"></textarea>
-    </label>
-  </div>
-
-  <div class="document">
-    <h3>Document</h3>
-
-    <label>
-      Title <input name="document[1][title]"/>
-    </label>
-
-    <label>
-      Head
-      <textarea name="document[1][head]" rows="10"></textarea>
-    </label>
-
-    <label>
-      Body
-      <textarea name="document[1][body]" rows="10"></textarea>
-    </label>
-  </div>
+  {{> _document index=0 }}
+  {{> _document index=1 }}
 
   <div>
     <a class="js-add-another" href="#">Add another</a>
