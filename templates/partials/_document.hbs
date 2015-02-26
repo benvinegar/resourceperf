@@ -1,16 +1,21 @@
 <div class="document">
-  <h3>Snippet</h3>
+  <h3>Document</h3>
+
+  {{#if id}}
+    <input type="hidden" name="document[{{#if index}}{{index}}{{else}}{{@index}}{{/if}}][id]" value="{{id}}"/>
+  {{/if}}
+
   <label>
-    Title <input name="document[{{index}}][title]"/>
+    Title <input name="document[{{#if index}}{{index}}{{else}}{{@index}}{{/if}}][title]" value="{{title}}"/>
   </label>
 
   <label>
     Head
-    <textarea name="document[{{index}}][head]" rows="10"></textarea>
+    <textarea name="document[{{#if index}}{{index}}{{else}}{{@index}}{{/if}}][head]" rows="10">{{head}}</textarea>
   </label>
 
   <label>
     Body
-    <textarea name="document[{{index}}][body]" rows="10"></textarea>
+    <textarea name="document[{{#if index}}{{index}}{{else}}{{@index}}{{/if}}][body]" rows="10">{{body}}</textarea>
   </label>
 </div>

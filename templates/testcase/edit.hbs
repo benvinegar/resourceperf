@@ -1,0 +1,10 @@
+<h2>Edit {{testcase.name}}</h2>
+<form action="/{{testcase.slug}}/update" method="POST">
+  {{> _testcase testcase }}
+
+  {{#each documents }}
+    {{> _document }}
+  {{/each}}
+
+  <button type="submit">Submit</button>
+</form>

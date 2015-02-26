@@ -2,26 +2,12 @@
 <p>Welcome to {{title}}</p>
 
 <h2>Create a test case</h2>
-<form name="" method="POST">
-  <div class="testcase">
-    <label>
-      Name <input name="name">
-    </label>
-    <br/>
+<form action="/" method="POST">
+  {{> _testcase testcase }}
 
-    <label>
-      Slug <input name="slug">
-    </label>
-    <br/>
-
-    <label>
-      Description
-      <textarea name="desc" rows="10"></textarea>
-    </label>
-  </div>
-
-  {{> _document index=0 }}
-  {{> _document index=1 }}
+  {{#each documents}}
+    {{> _document }}
+  {{/each}}
 
   <div>
     <a class="js-add-another" href="#">Add another</a>

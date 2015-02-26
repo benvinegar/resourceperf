@@ -1,0 +1,20 @@
+<div class="testcase">
+  {{#if id}}
+    <input type="hidden" name="id" value="{{id}}"/>
+  {{/if}}
+
+  <label>
+    Name <input name="name" value="{{name}}"/>
+  </label>
+  <br/>
+
+  <label>
+    Slug <input name="slug" value="{{slug}}"/>
+  </label>
+  <br/>
+
+  <label>
+    Description
+    <textarea name="desc" rows="10">{{desc}}</textarea>
+  </label>
+</div>
