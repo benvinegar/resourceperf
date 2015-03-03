@@ -1,13 +1,13 @@
-<h1>{{testcase.name}}</h1>
+<h1 class="page-header">{{testcase.name}}</h1> 
 
-<a href="/{{testcase.slug}}/edit">edit</a>
+<p>{{testcase.desc}} <a href="/{{testcase.slug}}/edit">Edit this testcase</a>.</p>
 
-<h2>Info</h2>
-<p>{{testcase.desc}}</p>
 
-<button id="start">Start</button>
+<p>
+  <button class="btn btn-default" id="start">Start</button>
+</p>
 
-<table>
+<table class="table table-hover table-bordered">
   <thead>
     <tr>
       <th>#</th>
@@ -28,6 +28,8 @@
     {{/each}}
   </tbody>
 </table>
+
+<a href="/">Return Home</a>
 
 <script id="documents" type="text/json">
 {{{documentJson}}}
