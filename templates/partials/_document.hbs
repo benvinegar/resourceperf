@@ -1,3 +1,4 @@
+
 <div class="document">
   <h3>Document</h3>
 
@@ -5,17 +6,24 @@
     <input type="hidden" name="document[{{#if index}}{{index}}{{else}}{{@index}}{{/if}}][id]" value="{{id}}"/>
   {{/if}}
 
-  <label>
-    Title <input name="document[{{#if index}}{{index}}{{else}}{{@index}}{{/if}}][title]" value="{{title}}"/>
-  </label>
+  <div class="form-group">
+    <label class="control-label col-sm-2">Title</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" name="document[{{#if index}}{{index}}{{else}}{{@index}}{{/if}}][title]" value="{{title}}"/>
+    </div>
+  </div>
 
-  <label>
-    Head
-    <textarea name="document[{{#if index}}{{index}}{{else}}{{@index}}{{/if}}][head]" rows="10">{{head}}</textarea>
-  </label>
+  <div class="form-group">
+    <label class="control-label col-sm-2">Head</label>
+    <div class="col-sm-10">
+      <textarea class="form-control" name="document[{{#if index}}{{index}}{{else}}{{@index}}{{/if}}][head]" rows="10">{{head}}</textarea>
+    </div>
+  </div>
 
-  <label>
-    Body
-    <textarea name="document[{{#if index}}{{index}}{{else}}{{@index}}{{/if}}][body]" rows="10">{{body}}</textarea>
-  </label>
+  <div class="form-group">
+    <label class="control-label col-sm-2">Body</label>
+    <div class="col-sm-10">
+      <textarea class="form-control" name="document[{{#if index}}{{index}}{{else}}{{@index}}{{/if}}][body]" rows="10">{{body}}</textarea>
+    </div>
+  </div>
 </div>

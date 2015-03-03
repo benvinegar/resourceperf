@@ -6,3 +6,7 @@ body {
 a {
   color: #00B7FF;
 }
+
+h1, h2, h3 {
+  margin-bottom: 1em;
+}

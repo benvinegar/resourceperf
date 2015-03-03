@@ -1,19 +1,22 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+<h1 class="page-header">{{title}}</h1>
 
-<h2>Create a test case</h2>
-<form action="/" method="POST">
+<p>ResourcePerf is a web performance testing tool that lets you test multiple HTML documents against each other for resource performance.</p>
+
+
+<h3>Create a test case</h3>
+<form action="/" method="POST" class="form-horizontal">
   {{> _testcase testcase }}
 
   {{#each documents}}
     {{> _document }}
   {{/each}}
 
-  <div>
-    <a class="js-add-another" href="#">Add another</a>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button class="btn js-add-another" onclick="return false;">Add another document</button>
+      <button type="submit" class="btn btn-default">Submit</button>
+    </div>
   </div>
-
-  <button type="submit">Submit</button>
 </form>
 
 <script src="/javascripts/jquery.js"></script>

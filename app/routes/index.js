@@ -9,7 +9,7 @@ var _ = require('lodash');
 
 router.get('/', function(req, res, next) {
   res.render('index', {
-    title: 'Create a test',
+    title: 'Welcome to ResourcePerf',
     testcase: {},
     documents: [{}, {}] // 2
   });
