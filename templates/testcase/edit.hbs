@@ -1,10 +1,14 @@
 <h2>Edit {{testcase.name}}</h2>
-<form action="/{{testcase.slug}}/update" method="POST">
+<form action="/{{testcase.slug}}/update" method="POST" class="form-horizontal">
   {{> _testcase testcase }}
 
   {{#each documents }}
     {{> _document }}
   {{/each}}
 
-  <button type="submit">Submit</button>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button class="btn btn-default" type="submit">Save</button>
+    </div>
+  </div>
 </form>
