@@ -3,6 +3,22 @@
 <p>{{testcase.desc}} <a href="/{{testcase.slug}}/edit">Edit this testcase</a>.</p>
 
 
+{{#each documents}}
+<h2>{{title}}</h2>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;{{title}}&lt;/title&gt;{{#if head}}
+    {{head}}{{/if}}
+  &lt;/head&gt;
+  &lt;body&gt;{{#if body}}
+    {{body}}{{/if}}
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+{{/each}}
+
 <p>
   <button class="btn btn-default" id="start">Start</button>
 </p>
@@ -21,7 +37,7 @@
     {{#each documents}}
     <tr>
       <td>{{@index}}</td>
-      <td>{{this.title}}</td>
+      <td>{{title}}</td>
       <td class="js-dom-complete"></td>
       <td class="js-onload"></td>
     </tr>
