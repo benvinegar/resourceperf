@@ -100,7 +100,6 @@ router.post('/:slug/update', function (req, res, next) {
 
 router.get('/document/new', function (req, res, next) {
   res.render('partials/_document', {
-    layout: false,
     index: req.query.index
   });
 });
@@ -108,7 +107,8 @@ router.get('/document/new', function (req, res, next) {
 router.get('/document/:id', function (req, res, next) {
   models.Document.find(req.params.id).then(function (document) {
     res.render('document', {
-      document: document
+      document: document,
+      layout: false
     });
   });
 });
