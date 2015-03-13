@@ -59,4 +59,4 @@ You're welcome to develop locally using whatever data store you want (e.g. SQLit
 npm start
 ```
 
-Then visit [http://localhost:30000](http://localhost:30000)
+Then visit [http://localhost:3000](http://localhost:3000)
