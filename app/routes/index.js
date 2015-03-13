@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
+var cheerio = require('cheerio');
+
 var models = require('../models');
 var Sequelize = require('sequelize');
 
@@ -104,10 +106,71 @@ router.get('/document/new', function (req, res, next) {
   });
 });
 
+function showDocument(req, res, next, cache) {
+  models.Document.find(req.params.id).then(function (document) {
+    // current time in microseconds
+    var hrtime = process.hrtime();
+    var cachebuster = hrtime[0] * 1000000 + hrtime[1] / 1000;
+
+    var $ = cheerio.load(document.head);
+    $('[src]').each(function () {
+      $(this).attr('src', $(this).attr('src') + '?' + cachebuster);
+    });
+    var head = $.html();
+
+    $ = cheerio.load(document.body);
+    $('[src]').each(function () {
+      $(this).attr('src', $(this).attr('src') + '?' + cachebuster);
+    });
+    var body = $.html();
+
+    res.render('document', {
+      document: document,
+      head: head,
+      body: body,
+      layout: false
+    });
+  });
+}
+
+router.get('/document/:id/nocache', function (req, res, next) {
+  models.Document.find(req.params.id).then(function (document) {
+    // current time in microseconds
+    var hrtime = process.hrtime();
+    var cachebuster = hrtime[0] * 1000000 + hrtime[1] / 1000;
+
+    var $ = cheerio.load(document.head);
+    $('[src]').each(function () {
+      $(this).attr('src', $(this).attr('src') + '?' + cachebuster);
+    });
+    var head = $.html();
+
+    $ = cheerio.load(document.body);
+    $('[src]').each(function () {
+      $(this).attr('src', $(this).attr('src') + '?' + cachebuster);
+    });
+    var body = $.html();
+
+    res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.set('Pragma', 'no-cache');
+    res.set('Expires', '0');
+
+
+    res.render('document', {
+      document: document,
+      head: head,
+      body: body,
+      layout: false
+    });
+  });
+});
+
 router.get('/document/:id', function (req, res, next) {
   models.Document.find(req.params.id).then(function (document) {
     res.render('document', {
       document: document,
+      head: document.head,
+      body: document.body,
       layout: false
     });
   });

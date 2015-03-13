@@ -1,19 +1,12 @@
 (function () {
-  var documentData = $('#documents').text();
-  var documents = JSON.parse(documentData);
+  var documentData = $('#documents').text(),
+    documents = JSON.parse(documentData);
 
-  var allTimings = [];
+  var regularTimings = [],
+    nocacheTimings = [];
 
-  function avg(arr, key) {
-    return arr.reduce(function (r, x) {
-      return r + x[key];
-    }, 0) / arr.length;
-  }
-
-  function nextDocument() {
-
-    var next = documents.shift(),
-      frameTimings = [],
+  function benchmark(url, repetitions, callback) {
+    var frameTimings = [],
       count = 0;
 
     var iframe = $('<iframe>')
@@ -27,11 +20,13 @@
           win.performance.timing
         )));
 
-        if (count++ < 10)
+        if (count++ < repetitions)
           win.location.reload();
         else {
-
-          allTimings.push({
+          iframe.remove();
+          callback(frameTimings);
+          callback({
+            // calculate mean
             domComplete: frameTimings.reduce(function (r, t) {
              return r + (t.domComplete - t.connectStart); 
             }, 0) / count,
@@ -39,23 +34,59 @@
               return r + (t.loadEventEnd - t.connectStart);
             }, 0) / count
           });
-
-          if (documents.length)
-            nextDocument();
-          else
-            report();
         }
       })
-      .attr('src', '/document/' + next.id);
+      .attr('src', url);
+  }
+
+  function nextDocument() {
+    var next = documents.shift(),
+      regularUrl = '/document/' + next.id,
+      nocacheUrl = '/document/' + next.id + '/nocache',
+      loadsPerDocument = 5;
+
+    benchmark(regularUrl, loadsPerDocument + 1, function (frameTimings) {
+      // throw out first timing; need to prime cache first
+      frameTimings.shift();
+
+      regularTimings.push({
+        // calculate mean
+        domComplete: frameTimings.reduce(function (r, t) {
+         return r + (t.domComplete - t.connectStart); 
+        }, 0) / loadsPerDocument,
+        onload: frameTimings.reduce(function (r, t) {
+          return r + (t.loadEventEnd - t.connectStart);
+        }, 0) / loadsPerDocument
+      });
+
+      benchmark(nocacheUrl, loadsPerDocument, function (frameTimings) {
+        nocacheTimings.push({
+          // calculate mean
+          domComplete: frameTimings.reduce(function (r, t) {
+           return r + (t.domComplete - t.connectStart); 
+          }, 0) / loadsPerDocument,
+          onload: frameTimings.reduce(function (r, t) {
+            return r + (t.loadEventEnd - t.connectStart);
+          }, 0) / loadsPerDocument
+        });
+
+        if (documents.length)
+          nextDocument();
+        else
+          report();
+      });
+    });
   }
 
   function report() {
-    var domComplete = $('.js-dom-complete'),
-      onload = $('.js-onload');
+    var cache = $('.js-cache'),
+      nocache = $('.js-nocache');
 
-    allTimings.forEach(function (timing, index) {
-      domComplete.eq(index).text(timing.domComplete.toFixed(3));
-      onload.eq(index).text(timing.onload.toFixed(3));
+    regularTimings.forEach(function (timing, index) {
+      cache.eq(index).text(timing.domComplete.toFixed(3));
+    });
+    nocacheTimings.forEach(function (timing, index) {
+      nocache.eq(index).text(timing.onload.toFixed(3));
     });
   }
 
