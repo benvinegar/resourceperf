@@ -38,6 +38,16 @@ router.post('/', function(req, res, next) {
     });
 });
 
+router.get('/browse', function (req, res, next) {
+  models.TestCase.findAll({
+    order: '"createdAt" DESC'
+  }).then(function (testcases) {
+    res.render('testcase/index', {
+      testcases: testcases
+    });
+  });
+});
+
 router.get('/:slug', function (req, res, next) {
   models.TestCase.find({
     where: {slug: req.params.slug }
