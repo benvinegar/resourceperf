@@ -8,8 +8,6 @@ var request = require('supertest'),
 var app = require('../app-build/app'),
   models = require('../app-build/models');
 
-chai.use(require("chai-as-promised"));
-
 before(function(done) {
   // Wait for database to synchronize before firing up
   // any tests
@@ -49,14 +47,16 @@ describe('testcase', function () {
 
       it('should 302', function () {
         expect(this.request.response.status).to.equal(302);
-      })
+      });
 
       it('should create a new testcase', function () {
-        var testcase = models.TestCase.find({
+        return models.TestCase.find({
           where: { slug: 'test-slug' }
+        }).then(function (testcase) {
+          expect(testcase.name).to.equal('test');
+          expect(testcase.slug).to.equal('test-slug');
+          expect(testcase.desc).to.equal('test description');
         });
-
-        return expect(testcase).to.eventually.have.property('dataValues')
       });
     });
 
@@ -68,6 +68,7 @@ describe('testcase', function () {
 
   before(function(done) {
     models.TestCase.build({
+      id: 2,
       name: 'foo',
       slug: 'foo'
     }).save().then(done.bind(this, null));
@@ -102,7 +103,32 @@ describe('testcase', function () {
   });
 
   describe('POST /:slug/update', function () {
-    it('should update an existing testcase\'s properties');
+    before(function (done) {
+      this.request = request(app)
+        .post('/foo/update')
+        .send({
+          id: 2,
+          name: 'foo new',
+          slug: 'foo-2',
+          desc: 'totes new description',
+          document: []
+        })
+        .end(done);
+    });
+
+    it('should 302', function () {
+      expect(this.request.response.status).to.equal(302);
+    });
+
+    it('should update an existing testcase\'s properties', function () {
+      return models.TestCase.find({
+        where: { slug: 'foo-2' }
+      }).then(function (testcase) {
+        expect(testcase.name).to.equal('foo new');
+        expect(testcase.slug).to.equal('foo-2');
+        expect(testcase.desc).to.equal('totes new description');
+      });
+    });
   });
 });
 
