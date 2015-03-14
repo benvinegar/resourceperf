@@ -18,10 +18,10 @@ Users will be able to create, repeat, and share tests that could compare:
 
 ```bash
 npm install
-mkdir -p config && touch config/config.json
+mkdir -p config && touch config/database.json
 ```
 
-Add the following database config template to config.json, and edit accordingly:
+Add the following database config template to database.json, and edit accordingly:
 
 ```json
 {

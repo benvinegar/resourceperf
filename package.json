@@ -5,7 +5,6 @@
   "scripts": {
     "pretest": "node_modules/gulp/bin/gulp.js",
     "test": "node_modules/mocha/bin/mocha test/spec.js",
-
     "prestart": "node_modules/gulp/bin/gulp.js",
     "start": "node app-build/bin/www"
   },

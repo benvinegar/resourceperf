@@ -28,4 +28,4 @@ node_modules
 
 app-build
 
-config/config.json
+config/database.json
