@@ -11,6 +11,8 @@
   "author": "Ben Vinegar <ben@benv.ca>",
   "license": "MIT",
   "devDependencies": {
+    "chai": "^2.1.1",
+    "chai-as-promised": "^4.3.0",
     "gulp": "^3.8.11",
     "gulp-babel": "^4.0.0",
     "gulp-mocha": "^2.0.0",
