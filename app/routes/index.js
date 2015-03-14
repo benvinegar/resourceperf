@@ -38,7 +38,6 @@ router.post('/', function(req, res, next) {
     });
 });
 
-
 router.get('/:slug', function (req, res, next) {
   models.TestCase.find({
     where: {slug: req.params.slug }
@@ -106,33 +105,6 @@ router.get('/document/new', function (req, res, next) {
   });
 });
 
-function showDocument(req, res, next, cache) {
-  models.Document.find(req.params.id).then(function (document) {
-    // current time in microseconds
-    var hrtime = process.hrtime();
-    var cachebuster = hrtime[0] * 1000000 + hrtime[1] / 1000;
-
-    var $ = cheerio.load(document.head);
-    $('[src]').each(function () {
-      $(this).attr('src', $(this).attr('src') + '?' + cachebuster);
-    });
-    var head = $.html();
-
-    $ = cheerio.load(document.body);
-    $('[src]').each(function () {
-      $(this).attr('src', $(this).attr('src') + '?' + cachebuster);
-    });
-    var body = $.html();
-
-    res.render('document', {
-      document: document,
-      head: head,
-      body: body,
-      layout: false
-    });
-  });
-}
-
 router.get('/document/:id/nocache', function (req, res, next) {
   models.Document.find(req.params.id).then(function (document) {
     // current time in microseconds
@@ -175,6 +147,5 @@ router.get('/document/:id', function (req, res, next) {
     });
   });
 });
-
 
 module.exports = router;
