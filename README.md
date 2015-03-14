@@ -18,38 +18,22 @@ Users will be able to create, repeat, and share tests that could compare:
 
 ```bash
 npm install
-mkdir -p config && touch config/database.json
+cp config/database.example.json config/database.json
 ```
 
-Add the following database config template to database.json, and edit accordingly:
-
-```json
-{
-  "development": {
-    "username": "yourusername",
-    "password": null,
-    "database": "resourceperf",
-    "host": "127.0.0.1",
-    "dialect": "postgres"
-  }
-}
-```
+Then edit config/database.json appropriately.
 
 ### PostgreSQL Instructions
 
-You're welcome to develop locally using whatever data store you want (e.g. SQLite), but I've been using Postgres on OS X. Here's some instructions to help you get started.
+Local development and CI have been using PostgresQL as the local data store. Here's some instructions to help you get started on OS X.
 
 1. Download and install [Postgres.app](http://postgresapp.com/documentation/cli-tools.html)
  * You'll probably also want to enable Postgres.app's [CLI tools](http://postgresapp.com/documentation/cli-tools.html).
 
-2. Create the database
+2. Create the database(s)
 	```bash
 	createdb resourceperf
-	```
-
-3. Install the NodeJS pg module
-	```bash
-	cd resourceperf && npm install pg
+  createdb resourceperf_test
 	```
 
 

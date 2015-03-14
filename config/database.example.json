@@ -1,0 +1,16 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": null,
+    "database": "resourceperf",
+    "host": "localhost",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "postgres",
+    "password": null,
+    "database": "resourceperf_test",
+    "host": "localhost",
+    "dialect": "postgres"
+  }
+}
