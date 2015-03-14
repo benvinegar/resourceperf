@@ -107,6 +107,11 @@ router.get('/document/new', function (req, res, next) {
 
 router.get('/document/:id/nocache', function (req, res, next) {
   models.Document.find(req.params.id).then(function (document) {
+    if (!document) {
+      res.status(404);
+      return res.render('404');
+    }
+    
     // current time in microseconds
     var hrtime = process.hrtime();
     var cachebuster = hrtime[0] * 1000000 + hrtime[1] / 1000;
@@ -139,6 +144,11 @@ router.get('/document/:id/nocache', function (req, res, next) {
 
 router.get('/document/:id', function (req, res, next) {
   models.Document.find(req.params.id).then(function (document) {
+    if (!document) {
+      res.status(404);
+      return res.render('404');
+    }
+
     res.render('document', {
       document: document,
       head: document.head,
