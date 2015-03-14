@@ -1,4 +1,4 @@
-# resourceperf
+# resourceperf [![Build Status](https://travis-ci.org/benvinegar/resourceperf.svg?branch=master)](https://travis-ci.org/benvinegar/resourceperf)
 
 This is the source code for [resourceperf.com](http://resourceperf.com), a non-existent website because the code is like 2% finished.
 
