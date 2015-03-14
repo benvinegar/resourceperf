@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "",
   "scripts": {
+    "pretest": "node_modules/gulp/bin/gulp.js",
+    "test": "node_modules/mocha/bin/mocha test/spec.js",
+
     "prestart": "node_modules/gulp/bin/gulp.js",
     "start": "node app-build/bin/www"
   },
@@ -11,8 +14,11 @@
   "devDependencies": {
     "gulp": "^3.8.11",
     "gulp-babel": "^4.0.0",
+    "gulp-mocha": "^2.0.0",
     "gulp-util": "^3.0.3",
-    "gulp-watch": "^4.1.1"
+    "gulp-watch": "^4.1.1",
+    "mocha": "^2.2.1",
+    "supertest": "^0.15.0"
   },
   "dependencies": {
     "async": "^0.9.0",

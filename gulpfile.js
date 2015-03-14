@@ -1,8 +1,9 @@
 var gulp = require('gulp');
-var babel = require('gulp-babel');
-var gutil = require('gulp-util');
-var fork = require('child_process').fork;
-var async = require('async');
+  babel = require('gulp-babel'),
+  gutil = require('gulp-util'),
+  fork = require('child_process').fork,
+  async = require('async'),
+  mocha = require('mocha');
 
 // Gulp auto restart code from nairou:
 //   https://gist.github.com/narirou/650b9b8d95263ed7e939

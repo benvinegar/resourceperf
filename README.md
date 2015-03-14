@@ -55,8 +55,16 @@ You're welcome to develop locally using whatever data store you want (e.g. SQLit
 
 ## Running
 
+Server:
+
 ```bash
 npm start
+```
+
+Tests:
+
+```
+npm test
 ```
 
 Then visit [http://localhost:3000](http://localhost:3000)
