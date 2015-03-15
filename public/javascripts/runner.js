@@ -2,8 +2,7 @@
   var documentData = $('#documents').text(),
     documents = JSON.parse(documentData);
 
-  var regularTimings = [],
-    nocacheTimings = [];
+  var count = 0;
 
   function benchmark(url, repetitions, callback) {
     var frameTimings = [],
@@ -36,11 +35,14 @@
       nocacheUrl = '/document/' + next.id + '/nocache',
       loadsPerDocument = 5;
 
+    var meanRegularTiming,
+      meanNocacheTiming;
+
     benchmark(regularUrl, loadsPerDocument + 1, function (frameTimings) {
       // throw out first timing; need to prime cache first
       frameTimings.shift();
 
-      regularTimings.push({
+      meanRegularTiming = {
         // calculate mean
         domComplete: frameTimings.reduce(function (r, t) {
          return r + (t.domComplete - t.connectStart);
@@ -48,10 +50,10 @@
         onload: frameTimings.reduce(function (r, t) {
           return r + (t.loadEventEnd - t.connectStart);
         }, 0) / loadsPerDocument
-      });
+      };
 
       benchmark(nocacheUrl, loadsPerDocument, function (frameTimings) {
-        nocacheTimings.push({
+        meanNocacheTiming = {
           // calculate mean
           domComplete: frameTimings.reduce(function (r, t) {
            return r + (t.domComplete - t.connectStart);
@@ -59,29 +61,21 @@
           onload: frameTimings.reduce(function (r, t) {
             return r + (t.loadEventEnd - t.connectStart);
           }, 0) / loadsPerDocument
-        });
+        };
 
+        report(count++, meanRegularTiming, meanNocacheTiming);
         if (documents.length)
           nextDocument();
-        else
-          report();
       });
     });
   }
 
-  function report() {
-    var rows = $('tbody tr');
-
-    regularTimings.forEach(function (timing, index) {
-      var cols = rows.eq(index).find('.js-results');
-      cols.eq(0).text(timing.domComplete.toFixed(3));
-      cols.eq(1).text(timing.onload.toFixed(3));
-    });
-    nocacheTimings.forEach(function (timing, index) {
-      var cols = rows.eq(index).find('.js-results');
-      cols.eq(2).text(timing.domComplete.toFixed(3));
-      cols.eq(3).text(timing.onload.toFixed(3));
-    });
+  function report(index, meanRegularTiming, meanNocacheTiming) {
+    var cols = $('tbody tr').eq(index).find('.js-results');
+    cols.eq(0).text(meanRegularTiming.domComplete.toFixed(3));
+    cols.eq(1).text(meanRegularTiming.onload.toFixed(3));
+    cols.eq(2).text(meanNocacheTiming.domComplete.toFixed(3));
+    cols.eq(3).text(meanNocacheTiming.onload.toFixed(3));
   }
 
   $('#start').click(function () {
