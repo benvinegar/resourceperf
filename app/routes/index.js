@@ -50,7 +50,8 @@ router.get('/browse', function (req, res, next) {
 
 router.get('/:slug', function (req, res, next) {
   models.TestCase.find({
-    where: {slug: req.params.slug }
+    where: {slug: req.params.slug },
+    limit: 50
   }).then(function (testcase) {
     if (!testcase) {
       res.status(404);
