@@ -40,7 +40,8 @@ router.post('/', function(req, res, next) {
 
 router.get('/browse', function (req, res, next) {
   models.TestCase.findAll({
-    order: '"createdAt" DESC'
+    order: '"createdAt" DESC',
+    limit: 50
   }).then(function (testcases) {
     res.render('testcase/index', {
       testcases: testcases
@@ -50,40 +51,38 @@ router.get('/browse', function (req, res, next) {
 
 router.get('/:slug', function (req, res, next) {
   models.TestCase.find({
-    where: {slug: req.params.slug },
-    limit: 50
+    where: { slug: req.params.slug },
+    include: [ models.Document ]
   }).then(function (testcase) {
     if (!testcase) {
       res.status(404);
       return res.render('404');
     }
 
-    testcase.getDocuments().then(function (documents) {
-      res.render('testcase/show', {
-        title: testcase.name,
-        testcase: testcase,
-        documents: documents,
-        documentJson: JSON.stringify(documents).replace(/\</g, '\\\\u005C')
-      });
+    var documents = testcase.Documents;
+    res.render('testcase/show', {
+      title: testcase.name,
+      testcase: testcase,
+      documents: documents,
+      documentJson: JSON.stringify(documents).replace(/\</g, '\\\\u005C')
     });
   });
 });
 
 router.get('/:slug/edit', function (req, res, next) {
   models.TestCase.find({
-    where: {slug: req.params.slug }
+    where: { slug: req.params.slug },
+    include: [ models.Document ]
   }).then(function (testcase) {
     if (!testcase) {
       res.status(404);
       return res.render('404');
     }
 
-    testcase.getDocuments().then(function (documents) {
-      res.render('testcase/edit', {
-        title: testcase.name,
-        testcase: testcase,
-        documents: documents
-      });
+    res.render('testcase/edit', {
+      title: testcase.name,
+      testcase: testcase,
+      documents: testcase.Documents
     });
   });
 });
