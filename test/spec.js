@@ -2,7 +2,9 @@ process.env.NODE_ENV = 'test';
 
 var request = require('supertest'),
   express = require('express'),
+  QueryChainer = require('sequelize').Utils.QueryChainer,
   chai = require('chai'),
+  _ = require('lodash'),
   expect = chai.expect;
 
 var app = require('../app-build/app'),
@@ -67,11 +69,29 @@ describe('testcase', function () {
   });
 
   before(function(done) {
-    models.TestCase.build({
+    var chainer = new QueryChainer();
+
+    chainer.add(models.TestCase.create({
       id: 2,
       name: 'foo',
       slug: 'foo'
-    }).save().then(done.bind(this, null));
+    }));
+
+    chainer.add(models.Document.create({
+      TestCaseId: 2,
+      title: 'foo document 1',
+      head: 'foo head 1',
+      body: 'foo body 1'
+    }));
+
+    chainer.add(models.Document.create({
+      TestCaseId: 2,
+      title: 'foo document 2',
+      head: 'foo head 2',
+      body: 'foo body 2'
+    }));
+
+    chainer.run().then(done.bind(this, null));
   });
 
   describe('GET /:slug (/testcase/show)', function () {
@@ -111,7 +131,22 @@ describe('testcase', function () {
           name: 'foo new',
           slug: 'foo-2',
           desc: 'totes new description',
-          document: []
+          document: [{
+            id: 1,
+            title: 'foo document 1!',
+            head: 'foo head 1!',
+            body: 'foo body 1!'
+          }, {
+            id: 2,
+            title: 'foo document 2?',
+            head: 'foo head 2?',
+            body: 'foo body 2?'
+          }, {
+            // newly created document
+            title: 'foo document 3 (new)',
+            head: 'foo head 3 (new)',
+            body: 'foo body 3 (new)'
+          }]
         })
         .end(done);
     });
@@ -122,11 +157,17 @@ describe('testcase', function () {
 
     it('should update an existing testcase\'s properties', function () {
       return models.TestCase.find({
-        where: { slug: 'foo-2' }
+        where: { slug: 'foo-2' },
+        include: [ models.Document ]
       }).then(function (testcase) {
         expect(testcase.name).to.equal('foo new');
         expect(testcase.slug).to.equal('foo-2');
         expect(testcase.desc).to.equal('totes new description');
+
+        var documents = _.sortBy(testcase.Documents, 'id');
+        expect(documents[0].title).to.equal('foo document 1!');
+        expect(documents[1].title).to.equal('foo document 2?');
+        expect(documents[2].title).to.equal('foo document 3 (new)');
       });
     });
   });

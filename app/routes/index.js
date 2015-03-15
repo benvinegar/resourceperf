@@ -88,25 +88,45 @@ router.get('/:slug/edit', function (req, res, next) {
 });
 
 router.post('/:slug/update', function (req, res, next) {
-  var chainer = new Sequelize.Utils.QueryChainer;
+  models.TestCase.find({
+    where: { id: req.body.id },
+    include: [ models.Document ]
+  }).then(function (testcase) {
+    if (!testcase) {
+      res.status(404);
+      return res.render('404');
+    }
 
-  chainer.add(
-    models.TestCase.update(_.pick(req.body, ['name', 'desc', 'slug']), {
-      where: { id : req.body.id }
-    })
-  );
+    var chainer = new Sequelize.Utils.QueryChainer;
 
-  req.body.document.forEach(function (doc) {
-    chainer.add(models.Document.update(_.omit(doc, 'id'), {
-      where: { id : doc.id }
-    }));
-  });
+    chainer.add(
+      testcase.updateAttributes(_.pick(req.body, ['name', 'desc', 'slug']))
+    );
 
-  chainer
-    .run()
-    .then(function () {
-      res.redirect('/' + req.body.slug);
+    var documentsById = _.inject(testcase.Documents, function (obj, doc) {
+      obj[doc.id] = doc;
+      return obj;
+    }, {});
+
+    req.body.document.forEach(function (params) {
+
+      if (params.id in documentsById) {
+        // Update existing
+        chainer.add(documentsById[params.id].updateAttributes(params));
+      } else {
+        // Add new document to testcase
+        chainer.add(models.Document.build(_.extend(params, {
+          TestCaseId: testcase.id
+        })).save());
+      }
     });
+
+    chainer
+      .run()
+      .then(function () {
+        res.redirect('/' + req.body.slug);
+      });
+  });
 });
 
 router.get('/document/new', function (req, res, next) {
