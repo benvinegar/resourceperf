@@ -25,15 +25,6 @@
         else {
           iframe.remove();
           callback(frameTimings);
-          callback({
-            // calculate mean
-            domComplete: frameTimings.reduce(function (r, t) {
-             return r + (t.domComplete - t.connectStart); 
-            }, 0) / count,
-            onload: frameTimings.reduce(function (r, t) {
-              return r + (t.loadEventEnd - t.connectStart);
-            }, 0) / count
-          });
         }
       })
       .attr('src', url);
@@ -52,7 +43,7 @@
       regularTimings.push({
         // calculate mean
         domComplete: frameTimings.reduce(function (r, t) {
-         return r + (t.domComplete - t.connectStart); 
+         return r + (t.domComplete - t.connectStart);
         }, 0) / loadsPerDocument,
         onload: frameTimings.reduce(function (r, t) {
           return r + (t.loadEventEnd - t.connectStart);
@@ -63,7 +54,7 @@
         nocacheTimings.push({
           // calculate mean
           domComplete: frameTimings.reduce(function (r, t) {
-           return r + (t.domComplete - t.connectStart); 
+           return r + (t.domComplete - t.connectStart);
           }, 0) / loadsPerDocument,
           onload: frameTimings.reduce(function (r, t) {
             return r + (t.loadEventEnd - t.connectStart);
@@ -79,14 +70,17 @@
   }
 
   function report() {
-    var cache = $('.js-cache'),
-      nocache = $('.js-nocache');
+    var rows = $('tbody tr');
 
     regularTimings.forEach(function (timing, index) {
-      cache.eq(index).text(timing.domComplete.toFixed(3));
+      var cols = rows.eq(index).find('.js-results');
+      cols.eq(0).text(timing.domComplete.toFixed(3));
+      cols.eq(1).text(timing.onload.toFixed(3));
     });
     nocacheTimings.forEach(function (timing, index) {
-      nocache.eq(index).text(timing.onload.toFixed(3));
+      var cols = rows.eq(index).find('.js-results');
+      cols.eq(2).text(timing.domComplete.toFixed(3));
+      cols.eq(3).text(timing.onload.toFixed(3));
     });
   }
 

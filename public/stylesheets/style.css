@@ -5,4 +5,9 @@
   content: "*";
   position: absolute;
   margin-left: 8px;
-};
+}
+
+.results th {
+  text-align: center !important;
+  vertical-align: middle !important;
+}

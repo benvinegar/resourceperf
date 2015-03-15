@@ -23,13 +23,19 @@
   <button class="btn btn-default" id="start">Start</button>
 </p>
 
-<table class="table table-hover table-bordered">
+<table class="table table-hover table-bordered results">
   <thead>
     <tr>
-      <th>#</th>
-      <th>Document</th>
-      <th>Normal</th>
-      <th>No Cache</th>
+      <th rowspan="2">#</th>
+      <th rowspan="2">Document</th>
+      <th colspan="2">Normal</th>
+      <th colspan="2">No Cache</th>
+    </tr>
+    <tr>
+      <th>DOM ready</th>
+      <th>onload</th>
+      <th>DOM ready</th>
+      <th>onload</th>
     </tr>
   </thead>
   <tbody>
@@ -38,8 +44,11 @@
     <tr>
       <td>{{@index}}</td>
       <td>{{title}}</td>
-      <td class="js-cache"></td>
-      <td class="js-nocache"></td>
+      <td class="js-results"></td>
+      <td class="js-results"></td>
+
+      <td class="js-results"></td>
+      <td class="js-results"></td>
     </tr>
     {{/each}}
   </tbody>

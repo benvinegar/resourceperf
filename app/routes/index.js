@@ -59,7 +59,7 @@ router.get('/:slug', function (req, res, next) {
       return res.render('404');
     }
 
-    var documents = testcase.Documents;
+    var documents = _.sortBy(testcase.Documents, 'id');
     res.render('testcase/show', {
       title: testcase.name,
       testcase: testcase,
