@@ -6,10 +6,10 @@
     <input type="hidden" name="document[{{#if index}}{{index}}{{else}}{{@index}}{{/if}}][id]" value="{{id}}"/>
   {{/if}}
 
-  <div class="form-group">
+  <div class="form-group required">
     <label class="control-label col-sm-2">Title</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" name="document[{{#if index}}{{index}}{{else}}{{@index}}{{/if}}][title]" value="{{title}}"/>
+      <input type="text" class="form-control" name="document[{{#if index}}{{index}}{{else}}{{@index}}{{/if}}][title]" value="{{title}}" required/>
     </div>
   </div>
 

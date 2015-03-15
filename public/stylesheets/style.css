@@ -1,1 +1,8 @@
 /* nothing here yet */
+
+.form-group.required .control-label:after {
+  color: #d00;
+  content: "*";
+  position: absolute;
+  margin-left: 8px;
+};
