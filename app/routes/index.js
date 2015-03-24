@@ -25,12 +25,12 @@ router.post('/', function(req, res, next) {
   chainer.add(testCase.save());
 
   // Create documents
-  var documents = req.body.document.map((s) => models.Document.build(s));
-  documents.forEach((s) => chainer.add(s.save()));
+  var documents = req.body.document.map(s => models.Document.build(s));
+  documents.forEach(s => chainer.add(s.save()));
 
   chainer
     .run()
-    .then(function () {
+    .then(() => {
       // Associate documents w/ test case
       testCase.setDocuments(documents).then(function () {
         res.redirect('/' + req.body.slug);
@@ -103,12 +103,12 @@ router.post('/:slug/update', function (req, res, next) {
       testcase.updateAttributes(_.pick(req.body, ['name', 'desc', 'slug']))
     );
 
-    var documentsById = _.inject(testcase.Documents, function (obj, doc) {
+    var documentsById = _.inject(testcase.Documents, (obj, doc) => {
       obj[doc.id] = doc;
       return obj;
     }, {});
 
-    req.body.document.forEach(function (params) {
+    req.body.document.forEach(params => {
 
       if (params.id in documentsById) {
         // Update existing
@@ -123,9 +123,7 @@ router.post('/:slug/update', function (req, res, next) {
 
     chainer
       .run()
-      .then(function () {
-        res.redirect('/' + req.body.slug);
-      });
+      .then(() => res.redirect('/' + req.body.slug))
   });
 });
 
@@ -161,7 +159,6 @@ router.get('/document/:id/nocache', function (req, res, next) {
     res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
     res.set('Pragma', 'no-cache');
     res.set('Expires', '0');
-
 
     res.render('document', {
       document: document,

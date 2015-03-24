@@ -7,7 +7,7 @@ export default function(sequelize, DataTypes) {
     body: DataTypes.TEXT
   }, {
     classMethods: {
-      associate: (models) => Document.belongsTo(models.TestCase)
+      associate: models => Document.belongsTo(models.TestCase)
     }
   });
 

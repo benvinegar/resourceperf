@@ -7,7 +7,7 @@ export default function(sequelize, DataTypes) {
     desc: DataTypes.TEXT
   }, {
     classMethods: {
-      associate: (models) => TestCase.hasMany(models.Document)
+      associate: models => TestCase.hasMany(models.Document)
     }
   });
 

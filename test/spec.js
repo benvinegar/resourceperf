@@ -49,6 +49,7 @@ describe('testcase', function () {
 
       it('should 302', function () {
         expect(this.request.response.status).to.equal(302);
+        expect(this.request.response.header.location).to.equal('/test-slug');
       });
 
       it('should create a new testcase', function () {
@@ -153,6 +154,7 @@ describe('testcase', function () {
 
     it('should 302', function () {
       expect(this.request.response.status).to.equal(302);
+      expect(this.request.response.header.location).to.equal('/foo-2');
     });
 
     it('should update an existing testcase\'s properties', function () {
