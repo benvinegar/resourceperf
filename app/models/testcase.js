@@ -1,6 +1,6 @@
 "use strict";
 
-module.exports = function(sequelize, DataTypes) {
+export default function(sequelize, DataTypes) {
   var TestCase = sequelize.define("TestCase", {
     name: DataTypes.STRING,
     slug: DataTypes.STRING,

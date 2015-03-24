@@ -1,18 +1,19 @@
 "use strict";
 
-var fs        = require("fs");
-var path      = require("path");
-var Sequelize = require("sequelize");
-var basename  = path.basename(module.filename);
-var env       = process.env.NODE_ENV || "development";
-var config    = require(__dirname + '/../../config/database.json')[env];
+import fs from "fs";
+import path from "path";
+import Sequelize from "sequelize";
+
+var basename = path.basename(module.filename);
+var env = process.env.NODE_ENV || "development";
+var config = JSON.parse(fs.readFileSync(__dirname + '/../../config/database.json', 'utf8'))[env];
 
 if (env === 'test') {
   config.logging = function () {}
 }
 
 var sequelize = new Sequelize(config.database, config.username, config.password, config);
-var db        = {};
+var db = {};
 
 fs
   .readdirSync(__dirname)
@@ -33,4 +34,4 @@ Object.keys(db).forEach(function(modelName) {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-module.exports = db;
+export default db;

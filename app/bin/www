@@ -4,9 +4,11 @@
  * Module dependencies.
  */
 
-var app = require('../app');
-var debug = require('debug')('src:server');
-var http = require('http');
+import app from '../app';
+import debug from 'debug';
+import http from 'http';
+
+debug = debug('src:server');
 
 /**
  * Get port from environment and store in Express.
@@ -16,7 +18,7 @@ var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 
-var models = require("../models");
+import models from "../models";
 
 app.set('port', process.env.PORT || 3000);
 

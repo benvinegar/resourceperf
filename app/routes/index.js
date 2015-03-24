@@ -1,13 +1,13 @@
-var express = require('express');
+import express from 'express';
+import Sequelize from 'sequelize';
+
+import cheerio from 'cheerio';
+import jsesc from 'jsesc';
+import _ from 'lodash';
+
+import models from '../models';
+
 var router = express.Router();
-
-var cheerio = require('cheerio');
-
-var models = require('../models');
-var Sequelize = require('sequelize');
-
-var jsesc = require('jsesc');
-var _ = require('lodash');
 
 router.get('/', function(req, res, next) {
   res.render('index', {
@@ -188,4 +188,4 @@ router.get('/document/:id', function (req, res, next) {
   });
 });
 
-module.exports = router;
+export default router;

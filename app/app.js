@@ -1,11 +1,13 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var moment = require('moment');
-var routes = require('./routes/index');
+import express from 'express';
+import path from 'path';
+import favicon from 'serve-favicon';
+import logger from 'morgan';
+import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
+import moment from 'moment';
+import hbs from 'hbs';
+
+import routes from './routes/index';
 
 var app = express();
 
@@ -13,7 +15,6 @@ var app = express();
 app.set('views', path.join(__dirname, '../templates'));
 app.set('view engine', 'hbs');
 
-var hbs = require('hbs');
 hbs.registerPartials(__dirname + '/../templates/partials');
 hbs.registerHelper('fromNow', function(context, block) {
   return moment(context).fromNow()
