@@ -1,6 +1,8 @@
 var gulp = require('gulp');
   babel = require('gulp-babel'),
+  sourcemaps = require('gulp-sourcemaps'),
   gutil = require('gulp-util'),
+  insert = require('gulp-insert'),
   fork = require('child_process').fork,
   async = require('async'),
   mocha = require('mocha');
@@ -11,7 +13,7 @@ var gulp = require('gulp');
 var app = {
   instance: null,
 
-  path: 'app-build/bin/www',
+  path: 'app-build/bin/www.js',
 
   env: { NODE_ENV: 'development', port: 3000 },
 
@@ -48,7 +50,10 @@ var app = {
 
 gulp.task('build', function () {
   return gulp.src('app/**/*')
+    .pipe(sourcemaps.init())
     .pipe(babel())
+    .pipe(insert.prepend('require(\'source-map-support\').install();\n'))
+    .pipe(sourcemaps.write({sourceRoot: 'app'}))
     .pipe(gulp.dest('app-build'));
 });
 
